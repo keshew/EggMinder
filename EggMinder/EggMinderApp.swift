@@ -1,17 +1,19 @@
-//
-//  EggMinderApp.swift
-//  EggMinder
-//
-//  Created by Артём Коротков on 20.03.2025.
-//
-
 import SwiftUI
 
 @main
 struct EggMinderApp: App {
+    @StateObject var notificationManager = NotificationManager()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if UserDefaultsManager().checkLogin() {
+                EggTabBarView()
+            } else {
+                EggOboardingView()
+                    .onAppear {
+                        notificationManager.requestPermission()
+                    }
+            }
         }
+        
     }
 }
