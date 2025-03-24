@@ -3,6 +3,7 @@ import SwiftUI
 @main
 struct EggMinderApp: App {
     @StateObject var notificationManager = NotificationManager()
+    
     var body: some Scene {
         WindowGroup {
             if UserDefaultsManager().checkLogin() {
@@ -10,10 +11,10 @@ struct EggMinderApp: App {
             } else {
                 EggOboardingView()
                     .onAppear {
-                        notificationManager.requestPermission()
+                        notificationManager.requestPermission { granted in
+                        }
                     }
             }
         }
-        
     }
 }

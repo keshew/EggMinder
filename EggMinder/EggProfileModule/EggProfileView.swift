@@ -159,6 +159,11 @@ struct EggProfileView: View {
                                     Toggle("", isOn: $eggProfileModel.isPush)
                                         .toggleStyle(CustomToggleStyle())
                                         .padding(.trailing, 20)
+                                        .onChange(of: eggProfileModel.isPush) { newValue in
+                                                if !newValue {
+                                                    NotificationManager.shared.cancelAllNotifications()
+                                                }
+                                            }
                                 }
                                 .padding(.leading, 30)
                             }

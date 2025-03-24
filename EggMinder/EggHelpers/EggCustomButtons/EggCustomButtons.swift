@@ -19,6 +19,7 @@ struct TimeTF: View {
                 DatePicker(
                     "Time",
                     selection: $time,
+                    in: Date()...,
                     displayedComponents: [.hourAndMinute]
                 )
                 .datePickerStyle(.compact)
@@ -152,6 +153,7 @@ struct DateTF: View {
                 DatePicker(
                     "Date",
                     selection: $date,
+                    in: Date()...,
                     displayedComponents: [.date]
                 )
                 .datePickerStyle(.compact)
@@ -161,6 +163,7 @@ struct DateTF: View {
         }
     }
 }
+
 
 struct CustomToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {

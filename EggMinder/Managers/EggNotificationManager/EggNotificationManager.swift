@@ -10,9 +10,12 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         UNUserNotificationCenter.current().delegate = self
     }
     
-    func requestPermission() {
+    func requestPermission(completion: @escaping (Bool) -> Void) {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { success, error in
+            DispatchQueue.main.async {
+                completion(success) 
+            }
         }
     }
     
@@ -48,4 +51,8 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         isEgg = true
         completionHandler()
     }
+    
+    func cancelAllNotifications() {
+         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+     }
 }
