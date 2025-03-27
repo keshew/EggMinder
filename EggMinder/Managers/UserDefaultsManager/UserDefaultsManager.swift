@@ -2,6 +2,21 @@ import Foundation
 import SwiftUI
 
 class UserDefaultsManager: ObservableObject {
+    func enterAsGuest() {
+        let defaults = UserDefaults.standard
+        defaults.set(true, forKey: "guest")
+    }
+    
+    func isGuest() -> Bool {
+        let defaults = UserDefaults.standard
+        return defaults.bool(forKey: "guest")
+    }
+    
+    func quitQuest() {
+        let defaults = UserDefaults.standard
+        defaults.set(false, forKey: "guest")
+    }
+    
     func register(email: String, password: String, nickname: String) -> Bool {
         let userDefaults = UserDefaults.standard
         var storedUsers: [String: [String: String]] = [:]

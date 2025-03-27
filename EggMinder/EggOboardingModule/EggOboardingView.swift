@@ -16,11 +16,11 @@ struct EggOboardingView: View {
                         Text("EggMinder")
                             .Paytone(size: 30, color:  Color(red: 236/255, green: 192/255, blue: 22/255))
                         
-                        Spacer(minLength: 50)
+                        Spacer(minLength: 30)
                         
                         Image(.chicken)
                             .resizable()
-                            .frame(width: 203, height: 251)
+                            .frame(width: 203, height: 231)
                         
                         Spacer(minLength: 40)
                         
@@ -34,7 +34,7 @@ struct EggOboardingView: View {
                             .Paytone(size: 14)
                             .multilineTextAlignment(.center)
                         
-                        Spacer(minLength: 60)
+                        Spacer(minLength: 30)
                         
                         HStack {
                             Spacer()
@@ -78,6 +78,32 @@ struct EggOboardingView: View {
                         }
                         .fullScreenCover(isPresented: $eggOboardingModel.isLogin) {
                             EggLoginView()
+                        }
+                        
+                        Spacer(minLength: 20)
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Button(action: {
+                                eggOboardingModel.isGuest = true
+                                UserDefaultsManager().enterAsGuest()
+                            }) {
+                                Text("Enter as Guest")
+                                    .Paytone(size: 16, color: Color(red: 201/255, green: 29/255, blue: 86/255))
+                                    .padding(.vertical, 16)
+                            }
+                            Spacer()
+                        }
+                        .cornerRadius(30)
+                        .padding(.horizontal, 40)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke(Color(red: 201/255, green: 29/255, blue: 86/255), lineWidth: 3)
+                                .padding(.horizontal, 40)
+                        }
+                        .fullScreenCover(isPresented: $eggOboardingModel.isGuest) {
+                            EggTabBarView()
                         }
                         
                         Color(.clear)

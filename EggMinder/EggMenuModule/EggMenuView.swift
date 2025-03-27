@@ -58,11 +58,12 @@ struct EggMenuView: View {
                 .fullScreenCover(isPresented: $eggMenuModel.isAdd) {
                     EggCreateReminderView()
                 }
+                .disabled(UserDefaultsManager().isGuest() ? true : false)
+                .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
             }
             .onAppear {
                 reminders = userDefaultsManager.loadReminders()
             }
-            
             
             .onChange(of: eggMenuModel.isAdd) { newValue in
                 if !newValue {

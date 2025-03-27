@@ -4,7 +4,6 @@ struct EggLoginView: View {
     @StateObject var eggLoginModel = EggLoginViewModel()
     @Environment(\.presentationMode) var presentationMode
     
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack {

@@ -29,6 +29,8 @@ struct EggHistoryView: View {
                                 
                             }
                             .padding(.trailing)
+                            .disabled(UserDefaultsManager().isGuest() ? true : false)
+                            .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
                         }
                         
                         Spacer(minLength: 20)

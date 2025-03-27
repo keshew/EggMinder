@@ -36,7 +36,9 @@ struct EggProfileView: View {
                                                 HStack {
                                                     Spacer()
                                                     Button(action: {
-                                                        eggProfileModel.isImagePick = true
+                                                        if UserDefaultsManager().isGuest() == false {
+                                                            eggProfileModel.isImagePick = true
+                                                        }
                                                     }) {
                                                         Image(.pick)
                                                             .resizable()
@@ -66,7 +68,9 @@ struct EggProfileView: View {
                                                     HStack {
                                                         Spacer()
                                                         Button(action: {
-                                                            eggProfileModel.isImagePick = true
+                                                            if UserDefaultsManager().isGuest() == false {
+                                                                eggProfileModel.isImagePick = true
+                                                            }
                                                         }) {
                                                             Image(.pick)
                                                                 .resizable()
@@ -94,7 +98,9 @@ struct EggProfileView: View {
                                                     HStack {
                                                         Spacer()
                                                         Button(action: {
-                                                            eggProfileModel.isImagePick = true
+                                                            if UserDefaultsManager().isGuest() == false {
+                                                                eggProfileModel.isImagePick = true
+                                                            }
                                                         }) {
                                                             Image(.pick)
                                                                 .resizable()
@@ -115,12 +121,22 @@ struct EggProfileView: View {
                                 }
                             }
                             
-                            Text("\(UserDefaultsManager().getNickname(for: UserDefaultsManager().getEmail() ?? "") ?? "Chiken")")
-                                .Paytone(size: 20)
-                                .padding(.top, 5)
+                            if UserDefaultsManager().isGuest() {
+                                Text("Guest")
+                                    .Paytone(size: 20)
+                                    .padding(.top, 5)
+                                
+                                Text("Guest")
+                                    .Paytone(size: 14, color: Color(red: 169/255, green: 160/255, blue: 163/255))
+                            } else {
+                                Text("\(UserDefaultsManager().getNickname(for: UserDefaultsManager().getEmail() ?? "") ?? "Chiken")")
+                                    .Paytone(size: 20)
+                                    .padding(.top, 5)
+                                
+                                Text("\(UserDefaultsManager().getEmail() ?? "Chiken")")
+                                    .Paytone(size: 14, color: Color(red: 169/255, green: 160/255, blue: 163/255))
+                            }
                             
-                            Text("\(UserDefaultsManager().getEmail() ?? "Chiken")")
-                                .Paytone(size: 14, color: Color(red: 169/255, green: 160/255, blue: 163/255))
                         }
                         
                         Spacer(minLength: 40)
@@ -205,6 +221,10 @@ struct EggProfileView: View {
                                 Button(action: {
                                     UserDefaultsManager().logout()
                                     eggProfileModel.isLogOut = true
+
+                                    if UserDefaultsManager().isGuest() {
+                                        UserDefaultsManager().quitQuest()
+                                    }
                                 }) {
                                     Text("Log Out")
                                         .Paytone(size: 16, color: Color(red: 201/255, green: 29/255, blue: 86/255))
@@ -223,27 +243,29 @@ struct EggProfileView: View {
                                 EggOboardingView()
                             }
                             
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    UserDefaultsManager().deleteAccount()
-                                    eggProfileModel.isLogOut = true
-                                }) {
-                                    Text("Delete Account")
-                                        .Paytone(size: 16, color: Color(red: 201/255, green: 29/255, blue: 86/255))
-                                        .padding(.vertical, 20)
+                            if !UserDefaultsManager().isGuest() {
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        UserDefaultsManager().deleteAccount()
+                                        eggProfileModel.isLogOut = true
+                                    }) {
+                                        Text("Delete Account")
+                                            .Paytone(size: 16, color: Color(red: 201/255, green: 29/255, blue: 86/255))
+                                            .padding(.vertical, 20)
+                                    }
+                                    Spacer()
                                 }
-                                Spacer()
-                            }
-                            .cornerRadius(30)
-                            .padding(.horizontal, 20)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 30)
-                                    .stroke(Color(red: 201/255, green: 29/255, blue: 86/255), lineWidth: 3)
-                                    .padding(.horizontal, 20)
-                            }
-                            .fullScreenCover(isPresented: $eggProfileModel.isLogOut) {
-                                EggOboardingView()
+                                .cornerRadius(30)
+                                .padding(.horizontal, 20)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 30)
+                                        .stroke(Color(red: 201/255, green: 29/255, blue: 86/255), lineWidth: 3)
+                                        .padding(.horizontal, 20)
+                                }
+                                .fullScreenCover(isPresented: $eggProfileModel.isLogOut) {
+                                    EggOboardingView()
+                                }
                             }
                         }
                         
